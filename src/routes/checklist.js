@@ -83,6 +83,8 @@ router.get('/equipment/all/req-check', checkEngineerLogin, async (req, res) => {
     jsonResponse[equip.id] = {
       equipmentType: equip.equipment_type_id,
       lastDateChecked: equip.last_date_checked,
+      latitude: equip.latitude,
+      longitude: equip.longitude,
     };
   });
 
@@ -122,6 +124,8 @@ router.get(
       jsonResponse[equip.id] = {
         equipmentType: equip.equipment_type_id,
         lastDateChecked: equip.last_date_checked,
+        latitude: equip.latitude,
+        longitude: equip.longitude,
       };
     });
 
