@@ -14,6 +14,8 @@ router.post(
     body('id').isInt().withMessage('Id is required'),
     body('equipmentTypeId').isInt().withMessage('Equipment type is required'),
     body('floorNumber').isInt().withMessage('Floor no is required'),
+    body('latitude').isString().withMessage('Latitude is required'),
+    body('longitude').isString().withMessage('Latitude is required'),
     body('lastDateChecked')
       .isString()
       .withMessage('Last Date checked is required'),
@@ -31,6 +33,8 @@ router.post(
         equipment_type_id: req.body.equipmentTypeId,
         floor_number: req.body.floorNumber,
         last_date_checked: req.body.lastDateChecked,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
       });
 
       res.send({ msg: 'Added new Equipment' });
