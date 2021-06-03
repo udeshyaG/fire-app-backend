@@ -22,29 +22,33 @@ router.post(
       return res.status(400).send({ errors: errors.array() });
     }
 
-    // Check if userid and pass present in db
-    const existingEng = await knex(tableNames.engineers).select().where({
-      eng_id: req.body.loginId,
-      password: req.body.password,
-    });
+    try {
+      // Check if userid and pass present in db
+      const existingEng = await knex(tableNames.engineers).select().where({
+        eng_id: req.body.loginId,
+        password: req.body.password,
+      });
 
-    if (existingEng.length === 0) {
-      return res.status(401).send({ error: 'Not Authorized' });
+      if (existingEng.length === 0) {
+        return res.status(401).send({ error: 'Not Authorized' });
+      }
+
+      const userJWT = jwt.sign(
+        {
+          engid: existingEng[0].eng_id,
+          floorNumber: existingEng[0].floor_number,
+        },
+        process.env.JWT_KEY
+      );
+
+      req.session = {
+        jwt: userJWT,
+      };
+
+      res.send(existingEng[0]);
+    } catch (error) {
+      res.send(error);
     }
-
-    const userJWT = jwt.sign(
-      {
-        engid: existingEng[0].eng_id,
-        floorNumber: existingEng[0].floor_number,
-      },
-      process.env.JWT_KEY
-    );
-
-    req.session = {
-      jwt: userJWT,
-    };
-
-    res.send(existingEng[0]);
   }
 );
 
