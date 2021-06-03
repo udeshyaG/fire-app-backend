@@ -35,12 +35,8 @@ module.exports = {
   // },
 
   production: {
-    client: 'postgresql',
-    connection: {
-      database: process.env.POSTGRES_DB,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-    },
+    client: 'pg',
+    connection: process.env.DATABASE_URL + '?ssl=true',
     migrations: {
       tableName: 'knex_migrations',
       directory: './db/migrations',
@@ -48,5 +44,6 @@ module.exports = {
     seeds: {
       directory: './db/seeds',
     },
+    useNullAsDefault: true,
   },
 };
