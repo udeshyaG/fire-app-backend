@@ -11,7 +11,7 @@ const tableNames = require('../constants/table-names');
 router.post(
   '/engineer/signin',
   [
-    body('engid').isString().withMessage('Enter Engineer id'),
+    body('loginId').isString().withMessage('Enter Engineer id'),
     body('password').isLength({ min: 4 }).withMessage('Enter password'),
   ],
   async (req, res) => {
@@ -24,7 +24,7 @@ router.post(
 
     // Check if userid and pass present in db
     const existingEng = await knex(tableNames.engineers).select().where({
-      eng_id: req.body.engid,
+      eng_id: req.body.loginId,
       password: req.body.password,
     });
 
@@ -52,7 +52,7 @@ router.post(
 router.post(
   '/admin/signin',
   [
-    body('adminId').isString().withMessage('Enter Admin id'),
+    body('loginId').isString().withMessage('Enter Admin id'),
     body('password').isLength({ min: 4 }).withMessage('Enter password'),
   ],
   async (req, res) => {
@@ -63,15 +63,15 @@ router.post(
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const { adminId, password } = req.body;
+    const { loginId, password } = req.body;
 
-    if (adminId !== 'admin' || password != 'password') {
+    if (loginId !== 'admin' || password != 'password') {
       return res.status(401).send({ error: 'Not Authorized' });
     }
 
     const userJWT = jwt.sign(
       {
-        adminId: adminId,
+        adminId: loginId,
       },
       process.env.JWT_KEY
     );

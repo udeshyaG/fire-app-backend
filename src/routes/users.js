@@ -41,7 +41,7 @@ router.post(
 router.post(
   '/users/signin',
   [
-    body('companyId').isString().withMessage('Company id required'),
+    body('loginId').isString().withMessage('Company id required'),
 
     body('password').isString().withMessage('Password is required'),
   ],
@@ -53,11 +53,11 @@ router.post(
     }
 
     try {
-      const { companyId, password } = req.body;
+      const { loginId, password } = req.body;
 
       const user = await knex(tableNames.users)
         .select()
-        .where({ company_id: companyId, password: password });
+        .where({ company_id: loginId, password: password });
 
       if (user.length === 0) {
         return res.status(400).send({
