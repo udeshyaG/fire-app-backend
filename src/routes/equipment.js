@@ -9,7 +9,7 @@ const router = express.Router();
 // Create a new equipment (object)
 router.post(
   '/equipment/new',
-  checkEngineerLogin,
+  // checkEngineerLogin,
   [
     body('id').isInt().withMessage('Id is required'),
     body('equipmentTypeId').isInt().withMessage('Equipment type is required'),
