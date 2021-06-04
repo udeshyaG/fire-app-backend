@@ -139,6 +139,21 @@ router.post(
   }
 );
 
+router.get('/users/complaints/', checkUserLogin, async (req, res) => {
+  try {
+    const companyId = req.currentuser.companyId;
+
+    const complaints = await knex(tableNames.userComplaints).select().where({
+      user_id: companyId,
+    });
+
+    res.send(complaints);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ error: 'Somehting went wrong' });
+  }
+});
+
 // User can add photo for a particular complaint
 
 module.exports = router;
