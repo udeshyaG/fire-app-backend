@@ -10,7 +10,7 @@ const router = express.Router();
 // I will return the equipment details and required Checklist
 router.get(
   '/equipment/req-check/:equipId',
-  checkEngineerLogin,
+  // checkEngineerLogin,
   async (req, res) => {
     const equipId = req.params.equipId;
 
@@ -39,7 +39,7 @@ router.get(
 // I will return the equipment details and current Checklist
 router.get(
   '/equipment/current-check/:equipId',
-  checkEngineerLogin,
+  // checkEngineerLogin,
   async (req, res) => {
     const equipId = req.params.equipId;
 

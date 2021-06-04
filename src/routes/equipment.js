@@ -16,6 +16,7 @@ router.post(
     body('floorNumber').isInt().withMessage('Floor no is required'),
     body('latitude').isString().withMessage('Latitude is required'),
     body('longitude').isString().withMessage('Latitude is required'),
+    body('wifiIp').isString().withMessage('Wifi Ip is required'),
     body('lastDateChecked')
       .isString()
       .withMessage('Last Date checked is required'),
@@ -35,6 +36,7 @@ router.post(
         last_date_checked: req.body.lastDateChecked,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
+        wifi_ip: req.body.wifiIp,
       });
 
       res.send({ msg: 'Added new Equipment' });

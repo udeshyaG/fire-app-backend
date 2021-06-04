@@ -107,11 +107,12 @@ router.post('/users/signout', (req, res) => {
 // The user can submit a complaint
 router.post(
   '/users/add-complaint',
-  checkUserLogin,
+  // checkUserLogin,
   [
     body('equipmentId').isInt().withMessage('Equipment Id is required'),
     body('floorNumber').isInt().withMessage('Floor Number is required'),
     body('complaintText').isString().withMessage('Complaint Text is required'),
+    body('companyId').isString().withMessage('Company Id is required'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -121,8 +122,8 @@ router.post(
     }
 
     try {
-      const { equipmentId, floorNumber, complaintText } = req.body;
-      const { companyId } = req.currentuser;
+      const { equipmentId, floorNumber, complaintText, companyId } = req.body;
+      // const { companyId } = req.currentuser;
 
       await knex(tableNames.userComplaints).insert({
         user_id: companyId,

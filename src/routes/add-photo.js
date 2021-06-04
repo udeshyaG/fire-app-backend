@@ -13,6 +13,8 @@ router.post('/add-photo', upload.single('file'), async (req, res) => {
   let info = req.body;
   const image = req.file;
 
+  console.log(req.body);
+
   const { folder, id } = req.body;
 
   const s3bucket = new AWS.S3({
@@ -47,12 +49,21 @@ router.post('/add-photo', upload.single('file'), async (req, res) => {
         imageUrl = `https://fire-app-photos.s3.amazonaws.com/${folder}/${image.originalname}`;
 
         // Now save this image url to database
-        await knex(tableNames.userComplaints)
-          .select()
-          .where({
-            user_id: id,
-          })
-          .update('image_url', imageUrl);
+        if (folder === 'complaints') {
+          await knex(tableNames.userComplaints)
+            .select()
+            .where({
+              id: id,
+            })
+            .update('image_url', imageUrl);
+        } else if (folder === 'equipments') {
+          await knex(tableNames.equipmentObject)
+            .select()
+            .where({
+              id: id,
+            })
+            .update('image_url', imageUrl);
+        }
 
         res
           .status(201)
