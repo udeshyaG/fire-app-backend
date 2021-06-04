@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const checkAdminLogin = require('../middlewares/check-admin-login');
 const knex = require('../knex-init');
 const tableNames = require('../constants/table-names');
+const checkEngineerLogin = require('../middlewares/check-engineer-login');
 
 router.get('/admin/pending-user-signups', checkAdminLogin, async (req, res) => {
   const pendingUsers = await knex(tableNames.users)
@@ -40,5 +41,29 @@ router.patch(
     }
   }
 );
+
+router.get('/admin/complaints', checkAdminLogin, async (req, res) => {
+  try {
+    const complaints = await knex(tableNames.userComplaints).select();
+
+    res.send(complaints);
+  } catch (error) {
+    return res.status(500).send({ error: 'Somehting went wrong' });
+  }
+});
+
+router.get('/engineer/complaints/', checkEngineerLogin, async (req, res) => {
+  try {
+    const floorNumber = req.currenteng.floorNumber;
+
+    const complaints = await knex(tableNames.userComplaints).select().where({
+      floor_number: floorNumber,
+    });
+
+    res.send(complaints);
+  } catch (error) {
+    return res.status(500).send({ error: 'Somehting went wrong' });
+  }
+});
 
 module.exports = router;
